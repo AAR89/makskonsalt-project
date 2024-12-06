@@ -5,7 +5,7 @@
       :headers="headers"
       :items="posts"
       item-key="id"
-      :pagination.sync="pagination"
+      :options.sync="options"
       @click:row="openPostDetails"
     >
       <template slot="item.actions" slot-scope="{ item }">
@@ -43,7 +43,12 @@ export default {
         { text: "Body", value: "body" },
         { text: "Actions", value: "actions" },
       ],
-      pagination: { page: 1, itemsPerPage: 5 },
+      options: {
+        page: 1,
+        itemsPerPage: 5,
+        sortBy: [],
+        sortDesc: [],
+      },
       createDialog: false,
       isEditMode: true,
       form: { id: null, title: "", body: "" },
@@ -98,6 +103,9 @@ export default {
     },
     openPostDetails(post) {
       console.log(post);
+    },
+    closeDialog() {
+      this.createDialog = false;
     },
   },
   mounted() {
