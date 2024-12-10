@@ -23,7 +23,7 @@
             <v-text-field v-model="form.title" label="Title" />
             <v-textarea v-model="form.body" label="Body" />
           </v-card-text>
-          <v-card-actions>
+          <v-card-actions class="posts-bottons-section">
             <v-btn color="black" @click="savePost">Save</v-btn>
             <v-btn color="black" @click="closeDialog">Cancel</v-btn>
           </v-card-actions>
@@ -136,5 +136,11 @@ export default {
 
 tr {
   cursor: pointer;
+}
+
+.posts-bottons-section {
+  display: flex;
+  justify-content: left;
+  gap: 10px;
 }
 </style>

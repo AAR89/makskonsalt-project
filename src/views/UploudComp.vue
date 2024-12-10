@@ -1,10 +1,10 @@
 <template>
   <v-container>
     <v-file-input v-model="file" label="Choose a file" @change="onFileChange" />
-    <div class="bottons-block">
+    <section class="bottons-section">
       <v-btn :disabled="!file" @click="sendFile">Send</v-btn>
       <v-btn :disabled="!fileSent" @click="downloadFile">Download</v-btn>
-    </div>
+    </section>
   </v-container>
 </template>
 
@@ -32,25 +32,32 @@ export default {
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
-        this.downloadUrl = response.data.url;
+        console.log(response);
+        this.downloadUrl = response.data.location;
         this.fileSent = true;
         this.$toast.success("File sent successfully");
+        alert("File sent successfully");
       } catch (error) {
         this.$toast.error("Failed to send file");
       }
     },
     downloadFile() {
-      const link = document.createElement("a");
-      link.href = this.downloadUrl;
-      link.download = "file";
-      link.click();
+      if (this.downloadUrl) {
+        const link = document.createElement("a");
+        link.href = this.downloadUrl;
+        link.download = "file"; // Указываем имя файла для скачивания
+        link.style.display = "none"; // Делаем ссылку невидимой
+        document.body.appendChild(link); // Добавляем ссылку в DOM
+        link.click(); // Инициализация скачивания
+        document.body.removeChild(link); // Убираем ссылку из DOM после скачивания
+      }
     },
   },
 };
 </script>
 
 <style scope lang="scss">
-.bottons-block {
+.bottons-section {
   display: flex;
   justify-content: center;
   gap: 10px;
