@@ -13,20 +13,23 @@
         <v-btn @click="deletePost(item)">Delete</v-btn>
       </template>
     </v-data-table>
-
-    <v-dialog v-model="createDialog" max-width="500px">
-      <v-card>
-        <v-card-title>{{ isEditMode ? "Edit Post" : "Add Post" }}</v-card-title>
-        <v-card-text>
-          <v-text-field v-model="form.title" label="Title" />
-          <v-textarea v-model="form.body" label="Body" />
-        </v-card-text>
-        <v-card-actions>
-          <v-btn @click="savePost">Save</v-btn>
-          <v-btn @click="closeDialog">Cancel</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <template>
+      <v-dialog v-model="createDialog" max-width="500px" attach="#app">
+        <v-card>
+          <v-card-title>{{
+            isEditMode ? "Edit Post" : "Add Post"
+          }}</v-card-title>
+          <v-card-text>
+            <v-text-field v-model="form.title" label="Title" />
+            <v-textarea v-model="form.body" label="Body" />
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="black" @click="savePost">Save</v-btn>
+            <v-btn color="black" @click="closeDialog">Cancel</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </template>
   </v-container>
 </template>
 
@@ -50,7 +53,7 @@ export default {
         sortDesc: [],
       },
       createDialog: false,
-      isEditMode: true,
+      isEditMode: false,
       form: { id: null, title: "", body: "" },
     };
   },
@@ -58,11 +61,11 @@ export default {
     async fetchPosts() {
       try {
         const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts"
+          "https://2264c69973bfa56d.mokky.dev/posts"
         );
         this.posts = response.data;
       } catch (error) {
-        this.$toast.error("Failed to fetch posts");
+        console.error("Error fetching posts:", error);
       }
     },
     openCreatePostDialog() {
@@ -71,19 +74,25 @@ export default {
       this.createDialog = true;
     },
     async savePost() {
-      if (this.isEditMode) {
-        await axios.put(
-          `https://jsonplaceholder.typicode.com/posts/${this.form.id}`,
-          this.form
-        );
-      } else {
-        await axios.post(
-          "https://jsonplaceholder.typicode.com/posts",
-          this.form
-        );
+      try {
+        if (this.isEditMode) {
+          const response = await axios.patch(
+            `https://2264c69973bfa56d.mokky.dev/posts/${this.form.id}`,
+            this.form
+          );
+          console.log("Post updated:", response.data);
+        } else {
+          const response = await axios.post(
+            "https://2264c69973bfa56d.mokky.dev/posts",
+            this.form
+          );
+          console.log("Post created:", response.data);
+        }
+        this.createDialog = false;
+        this.fetchPosts();
+      } catch (error) {
+        console.error("Error saving post:", error);
       }
-      this.createDialog = false;
-      this.fetchPosts();
     },
     async editPost(post) {
       this.form = { ...post };
@@ -96,7 +105,7 @@ export default {
       );
       if (confirmation) {
         await axios.delete(
-          `https://jsonplaceholder.typicode.com/posts/${post.id}`
+          `https://2264c69973bfa56d.mokky.dev/posts/${post.id}`
         );
         this.fetchPosts();
       }
