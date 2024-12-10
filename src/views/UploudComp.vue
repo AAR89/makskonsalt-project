@@ -10,6 +10,7 @@
 
 <script>
 import axios from "axios";
+import { saveAs } from "file-saver";
 
 export default {
   data() {
@@ -43,13 +44,7 @@ export default {
     },
     downloadFile() {
       if (this.downloadUrl) {
-        const link = document.createElement("a");
-        link.href = this.downloadUrl;
-        link.download = "file"; // Указываем имя файла для скачивания
-        link.style.display = "none"; // Делаем ссылку невидимой
-        document.body.appendChild(link); // Добавляем ссылку в DOM
-        link.click(); // Инициализация скачивания
-        document.body.removeChild(link); // Убираем ссылку из DOM после скачивания
+        saveAs(this.downloadUrl, "file");
       }
     },
   },
