@@ -18,6 +18,7 @@ export default {
       file: null,
       fileSent: false,
       downloadUrl: null,
+      fileName: null,
     };
   },
   methods: {
@@ -35,6 +36,7 @@ export default {
         );
         console.log(response);
         this.downloadUrl = response.data.location;
+        this.fileName = response.data.originalname;
         this.fileSent = true;
         this.$toast.success("File sent successfully");
         alert("File sent successfully");
@@ -44,7 +46,8 @@ export default {
     },
     downloadFile() {
       if (this.downloadUrl) {
-        saveAs(this.downloadUrl, "file");
+        saveAs(this.downloadUrl, this.fileName);
+        this.fileName = null;
       }
     },
   },
