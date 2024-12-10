@@ -9,8 +9,8 @@
       @click:row="openPostDetails"
     >
       <template slot="item.actions" slot-scope="{ item }">
-        <v-btn @click="editPost(item)">Edit</v-btn>
-        <v-btn @click="deletePost(item)">Delete</v-btn>
+        <v-btn @click.stop="editPost(item)">Edit</v-btn>
+        <v-btn @click.stop="deletePost(item)">Delete</v-btn>
       </template>
     </v-data-table>
     <template>
@@ -81,12 +81,14 @@ export default {
             this.form
           );
           console.log("Post updated:", response.data);
+          alert("Post updated");
         } else {
           const response = await axios.post(
             "https://2264c69973bfa56d.mokky.dev/posts",
             this.form
           );
           console.log("Post created:", response.data);
+          alert("Post created");
         }
         this.createDialog = false;
         this.fetchPosts();
@@ -111,6 +113,7 @@ export default {
       }
     },
     openPostDetails(post) {
+      this.editPost(post);
       console.log(post);
     },
     closeDialog() {
@@ -129,5 +132,9 @@ export default {
   width: 100px;
   margin-bottom: 5px;
   margin-top: 5px;
+}
+
+tr {
+  cursor: pointer;
 }
 </style>

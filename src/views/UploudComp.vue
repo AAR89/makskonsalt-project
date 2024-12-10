@@ -1,8 +1,10 @@
 <template>
   <v-container>
     <v-file-input v-model="file" label="Choose a file" @change="onFileChange" />
-    <v-btn :disabled="!file" @click="sendFile">Send</v-btn>
-    <v-btn :disabled="!fileSent" @click="downloadFile">Download</v-btn>
+    <div class="bottons-block">
+      <v-btn :disabled="!file" @click="sendFile">Send</v-btn>
+      <v-btn :disabled="!fileSent" @click="downloadFile">Download</v-btn>
+    </div>
   </v-container>
 </template>
 
@@ -46,3 +48,11 @@ export default {
   },
 };
 </script>
+
+<style scope lang="scss">
+.bottons-block {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+</style>
