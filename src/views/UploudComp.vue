@@ -40,7 +40,7 @@ export default {
         this.fileSent = true;
         alert("File sent successfully");
       } catch (error) {
-        this.$toast.error("Failed to send file");
+        console.log("Failed to send file", error);
       }
     },
     downloadFile() {

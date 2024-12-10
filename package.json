@@ -2,6 +2,7 @@
   "name": "makskonsalt-project",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://aar89.github.io/makskonsalt-project/",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
