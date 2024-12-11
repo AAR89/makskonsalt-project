@@ -19,7 +19,7 @@
         <v-btn :disabled="!fileSent" @click="downloadFile">Скачать</v-btn>
       </section>
 
-      <v-list>
+      <v-list v-if="reversedFiles.length !== 0">
         <v-list-item
           v-for="file in reversedFiles"
           :key="file.id"
@@ -37,6 +37,13 @@
             </v-btn>
           </v-list-item-action>
         </v-list-item>
+      </v-list>
+      <v-list v-else>
+        <v-list-item-content>
+          <v-list-item-title class="no-files-title"
+            >Нет файлов</v-list-item-title
+          >
+        </v-list-item-content>
       </v-list>
     </v-container>
   </section>
@@ -151,5 +158,14 @@ export default {
 .file-item:last-child {
   border-bottom: thin solid rgba(0, 0, 0, 0.12);
   margin: 0px;
+}
+.no-files-title {
+  border-bottom: thin solid rgba(0, 0, 0, 0.12);
+  border-top: thin solid rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.38);
+  height: 3.938rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
