@@ -1,5 +1,7 @@
-const { defineConfig } = require("@vue/cli-service");
-module.exports = defineConfig({
+import { posix } from "path";
+
+import { defineConfig } from "@vue/cli-service";
+export default defineConfig({
   publicPath:
     process.env.NODE_ENV === "production" ? "/makskonsalt-project/" : "/",
   transpileDependencies: ["vuetify"],
@@ -9,7 +11,7 @@ module.exports = defineConfig({
         rewrites: [
           {
             from: /./,
-            to: path.posix.join("/makskonsalt-project/", "index.html"),
+            to: posix.join("/makskonsalt-project/", "index.html"),
           },
         ],
       },
