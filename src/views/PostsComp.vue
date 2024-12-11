@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-btn @click="openCreatePostDialog">Add Post</v-btn>
+    <v-btn @click="openCreatePostDialog">Добавить пост</v-btn>
     <v-data-table
       :headers="headers"
       :items="posts"
@@ -9,8 +9,8 @@
       @click:row="openPostDetails"
     >
       <template slot="item.actions" slot-scope="{ item }">
-        <v-btn @click.stop="editPost(item)">Edit</v-btn>
-        <v-btn @click.stop="deletePost(item)">Delete</v-btn>
+        <v-btn @click.stop="editPost(item)">Редактировать</v-btn>
+        <v-btn @click.stop="deletePost(item)">Удалить</v-btn>
       </template>
     </v-data-table>
     <template>
@@ -24,8 +24,8 @@
             <v-textarea v-model="form.body" label="Body" />
           </v-card-text>
           <v-card-actions class="posts-bottons-section">
-            <v-btn color="black" @click="savePost">Save</v-btn>
-            <v-btn color="black" @click="closeDialog">Cancel</v-btn>
+            <v-btn color="black" @click="savePost">Сохранитьь</v-btn>
+            <v-btn color="black" @click="closeDialog">Отмена</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -80,20 +80,21 @@ export default {
             `https://2264c69973bfa56d.mokky.dev/posts/${this.form.id}`,
             this.form
           );
-          console.log("Post updated:", response.data);
-          alert("Post updated");
+          console.log("Пост отредактирован.", response.data);
+          alert("Пост отредактирован.");
         } else {
           const response = await axios.post(
             "https://2264c69973bfa56d.mokky.dev/posts",
             this.form
           );
-          console.log("Post created:", response.data);
-          alert("Post created");
+          console.log("Пост создан", response.data);
+          alert("Пост отредактирован.");
         }
         this.createDialog = false;
         this.fetchPosts();
       } catch (error) {
         console.error("Error saving post:", error);
+        alert("Ошибка при сохранении поста.");
       }
     },
     async editPost(post) {
@@ -102,9 +103,7 @@ export default {
       this.createDialog = true;
     },
     async deletePost(post) {
-      const confirmation = confirm(
-        "Are you sure you want to delete this post?"
-      );
+      const confirmation = confirm("Вы уверенны что хотите удалить этот пост?");
       if (confirmation) {
         await axios.delete(
           `https://2264c69973bfa56d.mokky.dev/posts/${post.id}`
@@ -129,9 +128,10 @@ export default {
 <style scope lang="scss">
 .v-btn:not(.v-btn--round).v-size--default {
   padding: 0px;
-  width: 100px;
+  width: 140px;
   margin-bottom: 5px;
   margin-top: 5px;
+  font-size: 0.775rem;
 }
 
 tr {

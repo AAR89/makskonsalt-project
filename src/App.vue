@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">Posts</router-link> |
-      <router-link to="/two">Uploud</router-link>
+      <router-link to="/one">Посты</router-link> |
+      <router-link to="/two">Загрузка</router-link>
     </nav>
     <router-view />
   </div>
