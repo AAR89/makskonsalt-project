@@ -21,26 +21,40 @@
       >
         <template slot="item.actions" slot-scope="{ item }">
           <v-btn @click.stop="editPost(item)">Редактировать</v-btn>
-          <v-btn @click.stop="deletePost(item)">Удалить</v-btn>
+          <v-btn @click.stop="confirmDeletePost(item)">Удалить</v-btn>
         </template>
       </v-data-table>
-      <template>
-        <v-dialog v-model="createDialog" max-width="500px" attach="#app">
-          <v-card>
-            <v-card-title>{{
-              isEditMode ? "Edit Post" : "Add Post"
-            }}</v-card-title>
-            <v-card-text>
-              <v-text-field v-model="form.title" label="Title" />
-              <v-textarea v-model="form.body" label="Body" />
-            </v-card-text>
-            <v-card-actions class="posts-bottons-section">
-              <v-btn color="black" @click="savePost">Сохранить</v-btn>
-              <v-btn color="black" @click="closeDialog">Отмена</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </template>
+
+      <v-dialog v-model="createDialog" max-width="500px" attach="#app">
+        <v-card>
+          <v-card-title>{{
+            isEditMode ? "Edit Post" : "Add Post"
+          }}</v-card-title>
+          <v-card-text>
+            <v-text-field v-model="form.title" label="Title" />
+            <v-textarea v-model="form.body" label="Body" />
+          </v-card-text>
+          <v-card-actions class="posts-bottons-section">
+            <v-btn color="black" @click="savePost">Сохранить</v-btn>
+            <v-btn color="black" @click="closeDialog">Отмена</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <v-dialog v-model="deleteDialog" max-width="400px" attach="#app">
+        <v-card>
+          <v-card-title>Подтверждение удаления</v-card-title>
+          <v-card-text>
+            Вы уверены, что хотите удалить пост "{{
+              selectedPost ? selectedPost.id : ""
+            }}"?
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="red" @click="deletePost">Удалить</v-btn>
+            <v-btn color="black" @click="closeDeleteDialog">Отмена</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-container>
   </section>
 </template>
@@ -65,8 +79,10 @@ export default {
         sortDesc: [],
       },
       createDialog: false,
+      deleteDialog: false,
       isEditMode: false,
       form: { id: null, title: "", body: "" },
+      selectedPost: null,
       isLoading: false,
     };
   },
@@ -118,20 +134,31 @@ export default {
       this.isEditMode = true;
       this.createDialog = true;
     },
-    async deletePost(post) {
-      const confirmation = confirm("Вы уверенны что хотите удалить этот пост?");
-      if (confirmation) {
+    confirmDeletePost(post) {
+      this.selectedPost = post;
+      this.deleteDialog = true;
+    },
+    async deletePost() {
+      try {
         await axios.delete(
-          `https://2264c69973bfa56d.mokky.dev/posts/${post.id}`
+          `https://2264c69973bfa56d.mokky.dev/posts/${this.selectedPost.id}`
         );
         this.fetchPosts();
+        this.closeDeleteDialog();
+      } catch (error) {
+        console.error("Error deleting post:", error);
+        alert("Ошибка при удалении поста.");
       }
-    },
-    openPostDetails(post) {
-      this.editPost(post);
     },
     closeDialog() {
       this.createDialog = false;
+    },
+    closeDeleteDialog() {
+      this.deleteDialog = false;
+      this.selectedPost = null;
+    },
+    openPostDetails(post) {
+      this.editPost(post);
     },
   },
   mounted() {
