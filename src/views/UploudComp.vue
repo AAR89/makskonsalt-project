@@ -7,7 +7,11 @@
     </section>
 
     <v-list>
-      <v-list-item v-for="file in files" :key="file.id" class="file-item">
+      <v-list-item
+        v-for="file in reversedFiles"
+        :key="file.id"
+        class="file-item"
+      >
         <v-list-item-content>
           <v-list-item-title>{{ file.fileName }}</v-list-item-title>
           <v-list-item-subtitle>{{ file.url }}</v-list-item-subtitle>
@@ -39,6 +43,11 @@ export default {
       files: [],
     };
   },
+  computed: {
+    reversedFiles() {
+      return [...this.files].reverse();
+    },
+  },
   methods: {
     onFileChange(file) {
       this.file = file;
@@ -52,7 +61,6 @@ export default {
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
-        console.log(response.data);
         this.downloadUrl = response.data.url;
         this.fileName = response.data.fileName;
         this.fileSent = true;
@@ -65,7 +73,6 @@ export default {
 
     downloadFile() {
       if (this.downloadUrl) {
-        console.log("downloadFile");
         saveAs(this.downloadUrl, this.fileName);
         this.fileName = null;
       }
@@ -93,14 +100,13 @@ export default {
           "https://2264c69973bfa56d.mokky.dev/uploads"
         );
         this.files = response.data;
-        console.log(this.files);
       } catch (error) {
         console.error("Ошибка при загрузке списка файлов", error);
       }
     },
   },
   mounted() {
-    this.fetchFiles(); // Загружаем список файлов при инициализации компонента
+    this.fetchFiles();
   },
 };
 </script>
