@@ -10,6 +10,7 @@
     "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
+    "connect-history-api-fallback": "^2.0.0",
     "core-js": "^3.8.3",
     "file-saver": "^2.0.5",
     "vue": "^2.6.14",

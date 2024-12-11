@@ -7,7 +7,11 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "*",
+    path: "/",
+    redirect: "/one",
+  },
+  {
+    path: "/one",
     name: "PostsComp",
     component: PostsComp,
   },
