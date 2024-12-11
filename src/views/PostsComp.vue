@@ -35,7 +35,7 @@
               <v-textarea v-model="form.body" label="Body" />
             </v-card-text>
             <v-card-actions class="posts-bottons-section">
-              <v-btn color="black" @click="savePost">Сохранитьь</v-btn>
+              <v-btn color="black" @click="savePost">Сохранить</v-btn>
               <v-btn color="black" @click="closeDialog">Отмена</v-btn>
             </v-card-actions>
           </v-card>
