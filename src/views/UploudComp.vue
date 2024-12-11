@@ -1,32 +1,45 @@
 <template>
-  <v-container>
-    <v-file-input v-model="file" label="Выберите файл" @change="onFileChange" />
-    <section class="bottons-section">
-      <v-btn :disabled="!file" @click="sendFile">Отправить</v-btn>
-      <v-btn :disabled="!fileSent" @click="downloadFile">Скачать</v-btn>
-    </section>
+  <section>
+    <v-progress-circular
+      v-if="isLoading"
+      indeterminate
+      color="#42b983"
+      size="32"
+      class="text-center"
+    ></v-progress-circular>
 
-    <v-list>
-      <v-list-item
-        v-for="file in reversedFiles"
-        :key="file.id"
-        class="file-item"
-      >
-        <v-list-item-content>
-          <v-list-item-title>{{ file.fileName }}</v-list-item-title>
-          <v-list-item-subtitle>{{ file.url }}</v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-action>
-          <v-btn icon @click="downloadFileFromList(file.url, file.fileName)">
-            <v-icon>mdi-download</v-icon>
-          </v-btn>
-          <v-btn icon color="red" @click="deleteFile(file.id)">
-            <v-icon>mdi-delete</v-icon>
-          </v-btn>
-        </v-list-item-action>
-      </v-list-item>
-    </v-list>
-  </v-container>
+    <v-container v-if="!isLoading">
+      <v-file-input
+        v-model="file"
+        label="Выберите файл"
+        @change="onFileChange"
+      />
+      <section class="bottons-section">
+        <v-btn :disabled="!file" @click="sendFile">Отправить</v-btn>
+        <v-btn :disabled="!fileSent" @click="downloadFile">Скачать</v-btn>
+      </section>
+
+      <v-list>
+        <v-list-item
+          v-for="file in reversedFiles"
+          :key="file.id"
+          class="file-item"
+        >
+          <v-list-item-content>
+            <v-list-item-title>{{ file.fileName }}</v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-btn icon @click="downloadFileFromList(file.url, file.fileName)">
+              <v-icon>mdi-download</v-icon>
+            </v-btn>
+            <v-btn icon color="red" @click="deleteFile(file.id)">
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+          </v-list-item-action>
+        </v-list-item>
+      </v-list>
+    </v-container>
+  </section>
 </template>
 
 <script>
@@ -41,6 +54,7 @@ export default {
       downloadUrl: null,
       fileName: null,
       files: [],
+      isLoading: false,
     };
   },
   computed: {
@@ -95,6 +109,7 @@ export default {
     },
 
     async fetchFiles() {
+      this.isLoading = true;
       try {
         const response = await axios.get(
           "https://2264c69973bfa56d.mokky.dev/uploads"
@@ -102,6 +117,8 @@ export default {
         this.files = response.data;
       } catch (error) {
         console.error("Ошибка при загрузке списка файлов", error);
+      } finally {
+        this.isLoading = false;
       }
     },
   },
@@ -122,5 +139,17 @@ export default {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
+}
+.v-list-item__action {
+  flex-direction: row;
+}
+.file-item {
+  border-top: thin solid rgba(0, 0, 0, 0.12);
+  margin: 0px;
+  display: flex;
+}
+.file-item:last-child {
+  border-bottom: thin solid rgba(0, 0, 0, 0.12);
+  margin: 0px;
 }
 </style>
