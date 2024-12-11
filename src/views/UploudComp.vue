@@ -52,8 +52,9 @@ export default {
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
-        this.downloadUrl = response.data.location;
-        this.fileName = response.data.originalname;
+        console.log(response.data);
+        this.downloadUrl = response.data.url;
+        this.fileName = response.data.fileName;
         this.fileSent = true;
         this.fetchFiles();
         alert("Файл успешно отправлен");
@@ -64,6 +65,7 @@ export default {
 
     downloadFile() {
       if (this.downloadUrl) {
+        console.log("downloadFile");
         saveAs(this.downloadUrl, this.fileName);
         this.fileName = null;
       }
