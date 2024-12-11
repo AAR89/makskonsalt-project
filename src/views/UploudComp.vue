@@ -28,7 +28,7 @@
           <v-list-item-content>
             <v-list-item-title>{{ file.fileName }}</v-list-item-title>
           </v-list-item-content>
-          <v-list-item-action>
+          <v-list-item-action class="bottons-section">
             <v-btn icon @click="downloadFileFromList(file.url, file.fileName)">
               <v-icon>mdi-download</v-icon>
             </v-btn>

@@ -161,4 +161,15 @@ tr {
   justify-content: left;
   gap: 10px;
 }
+
+.v-data-table__mobile-row__cell {
+  display: flex;
+  gap: 0.625rem;
+}
+
+@media (max-width: 410px) {
+  .v-data-table__mobile-row__cell {
+    flex-direction: column;
+  }
+}
 </style>
