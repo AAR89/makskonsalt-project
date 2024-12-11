@@ -49,7 +49,7 @@
               selectedPost ? selectedPost.id : ""
             }}"?
           </v-card-text>
-          <v-card-actions>
+          <v-card-actions class="posts-bottons-section-delete">
             <v-btn color="red" @click="deletePost">Удалить</v-btn>
             <v-btn color="black" @click="closeDeleteDialog">Отмена</v-btn>
           </v-card-actions>
@@ -143,6 +143,7 @@ export default {
         await axios.delete(
           `https://2264c69973bfa56d.mokky.dev/posts/${this.selectedPost.id}`
         );
+        alert("Пост удалён.");
         this.fetchPosts();
         this.closeDeleteDialog();
       } catch (error) {
@@ -188,10 +189,16 @@ tr {
   cursor: pointer;
 }
 
-.posts-bottons-section {
+.posts-bottons-section,
+.posts-bottons-section-delete {
   display: flex;
   justify-content: left;
   gap: 10px;
+}
+
+.posts-bottons-section-delete,
+.v-card__title {
+  justify-content: center;
 }
 
 .v-data-table__mobile-row__cell {
