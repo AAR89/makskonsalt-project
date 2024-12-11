@@ -104,7 +104,7 @@ export default {
             this.form
           );
           console.log("Пост создан", response.data);
-          alert("Пост отредактирован.");
+          alert("Пост создан.");
         }
         this.createDialog = false;
         this.fetchPosts();
