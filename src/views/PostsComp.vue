@@ -96,12 +96,14 @@ export default {
             `https://2264c69973bfa56d.mokky.dev/posts/${this.form.id}`,
             this.form
           );
+          console.log("Пост отредактирован.", response.data);
           alert("Пост отредактирован.");
         } else {
           const response = await axios.post(
             "https://2264c69973bfa56d.mokky.dev/posts",
             this.form
           );
+          console.log("Пост создан", response.data);
           alert("Пост отредактирован.");
         }
         this.createDialog = false;
