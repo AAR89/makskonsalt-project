@@ -8,7 +8,9 @@
       class="text-center"
     ></v-progress-circular>
     <v-container v-if="!isLoading">
-      <v-btn @click="openCreatePostDialog">Добавить пост</v-btn>
+      <div class="add-button-section">
+        <v-btn @click="openCreatePostDialog">Добавить пост</v-btn>
+      </div>
 
       <v-data-table
         :headers="headers"
@@ -140,6 +142,10 @@ export default {
 </script>
 
 <style scope lang="scss">
+.container {
+  padding: 0px 12px 12px 12px;
+}
+
 .text-center {
   margin-top: 10px;
 }
